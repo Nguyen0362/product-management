@@ -20,7 +20,7 @@ module.exports.index = async (req, res) => {
 
     // Phân trang
     let limitItem = 4;
-    let page = 4;
+    let page = 1;
 
     if(req.query.page){
         page = parseInt(req.query.page);
@@ -49,6 +49,7 @@ module.exports.index = async (req, res) => {
     });
 }
 
+//Đổi trạng thái
 module.exports.changeStatus = async (req, res) => {
     await Product.updateOne({
         _id: req.body.id
@@ -61,3 +62,34 @@ module.exports.changeStatus = async (req, res) => {
         message: "Đổi trạng thái thành công"
     });
 }
+// Hết đổi trạng thái
+
+//Đổi trạng thái nhiều bản ghi
+module.exports.changeMulti = async (req, res) => {
+    await Product.updateMany({
+        _id: req.body.id  
+    }, {
+        status: req.body.status
+    })
+
+    res.json({
+        code: "success",
+        message: "Đổi trạng thái thành công"
+    });
+}
+// Hết đổi trạng thái nhiều bản ghi
+
+//Xóa
+module.exports.delete = async(req, res) => {
+    await Product.updateOne({
+        _id: req.body.id
+    },{
+        deleted: true
+    })
+
+    res.json({
+        code: "success",
+        message: "Đổi trạng thái thành công"
+    })
+}
+// Hết xóa 

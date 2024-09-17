@@ -1,8 +1,6 @@
 // bộ lọc
 const boxFilter = document.querySelector("[box-filter]");
 
-console.log(boxFilter);
-
 if(boxFilter){
     let url = new URL(location.href);
 
@@ -95,14 +93,14 @@ if(listButtonChangeStatus.length > 0){
         button.addEventListener("click", () => {
             const itemId = button.getAttribute("item-id");
             const statusChange = button.getAttribute("button-change-status");
-            const path = button.getAttribute("data-path");
+            const patch = button.getAttribute("data-patch");
 
             const data = {
                 id: itemId,
                 status: statusChange
             }
 
-            fetch(path, {
+            fetch(patch, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -119,3 +117,84 @@ if(listButtonChangeStatus.length > 0){
     })
 }
 // Hết đổi trạng thái
+
+//Đổi trạng thái cho nhiều bảng ghi
+const formChangeMulti = document.querySelector("[form-change-multi]");
+if(formChangeMulti){
+    formChangeMulti.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const patch = formChangeMulti.getAttribute("data-path");
+    
+        const status = formChangeMulti.status.value;
+        const ids = [];
+        
+        const listInputChange = document.querySelectorAll("[input-change]:checked");
+        
+        listInputChange.forEach(input => {
+            const id = input.getAttribute("input-change");
+            ids.push(id);
+        });
+
+        const data = {
+            id: ids,
+            status: status
+        }
+
+        fetch(patch, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "PATCH",
+            body: JSON.stringify(data)
+        })
+
+            .then(res => res.json())
+            .then(data => {
+                if(data.code == "success"){
+                    location.reload();
+                }
+        })
+    })
+}
+// Hết đổi trạng thái cho nhiều bảng ghi
+
+// Xóa bản ghi
+const listButtonDelete = document.querySelectorAll("[button-delete]");
+console.log(listButtonDelete);
+if(listButtonDelete.length > 0){
+    listButtonDelete.forEach(button => {
+        button.addEventListener("click", () => {
+            isConfrim = confirm("Bạn có chắc chắn muốn xóa bản ghi này?");
+
+            if(isConfrim){
+                const id = button.getAttribute("button-id");
+                const patch = button.getAttribute("data-patch");
+
+                console.log(id);
+                console.log(patch);
+
+                const data = {
+                    id: id
+                }
+
+                fetch(patch, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+
+                    method: "PATCH",
+                    body: JSON.stringify(data)  
+                })
+                
+                .then(res => res.json())
+                .then(data => {
+                    if(data.code == "success"){
+                        location.reload();
+                    }
+                })
+            }
+        })
+    })
+}
+// Hết xóa bản ghi
