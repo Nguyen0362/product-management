@@ -39,7 +39,9 @@ module.exports.index = async (req, res) => {
     console.log(totalPage);
     // Hết phân trang
 
-    const products = await Product.find(find).limit(limitItem).skip(skip);
+    const products = await Product.find(find).limit(limitItem).skip(skip).sort({
+        position: "desc"
+    });
 
     res.render("admin/pages/products/index", {
         pageTitle: "Trang danh sách sản phẩm",
@@ -66,16 +68,39 @@ module.exports.changeStatus = async (req, res) => {
 
 //Đổi trạng thái nhiều bản ghi
 module.exports.changeMulti = async (req, res) => {
-    await Product.updateMany({
-        _id: req.body.id  
-    }, {
-        status: req.body.status
-    })
-
-    res.json({
-        code: "success",
-        message: "Đổi trạng thái thành công"
-    });
+    switch (req.body.status) {
+        case 'active':
+        case 'inactive':
+            await Product.updateMany({
+                _id: req.body.id  
+            }, {
+                status: req.body.status
+            })
+        
+            res.json({
+                code: "success",
+                message: "Đổi trạng thái thành công"
+            });
+            break;
+        
+        case 'delete':
+            await Product.updateMany({
+                _id: req.body.id  
+            }, {
+                deleted: true
+            });
+            res.json({
+                code: "success",
+                message: "Xóa thành công"
+            });
+            break;
+        default:
+            res.json({
+                code: "error",
+                message: "Trạng thái không hợp lệ"
+            });
+            break;
+    }
 }
 // Hết đổi trạng thái nhiều bản ghi
 
@@ -93,3 +118,18 @@ module.exports.delete = async(req, res) => {
     })
 }
 // Hết xóa 
+
+//Đổi vị trí
+module.exports.changePosition = async(req, res) => {
+    await Product.updateOne({
+        _id: req.body.id
+    },{
+        position: req.body.position
+    })
+
+    res.json({
+        code: "success",
+        message: "Đổi trạng thái thành công"
+    })
+}
+//Hết đổi vị trí

@@ -36,6 +36,7 @@ block main
                     select(name="status" class="form-control")
                       option(value="active") Hoạt động
                       option(value="inactive") Dừng hoạt động
+                      option(value="delete") Xoá
                     .input-group-append
                       button(
                         class="btn btn-success"
@@ -50,6 +51,7 @@ block main
                 th Hình ảnh
                 th Tiêu đề
                 th Giá
+                th Vị trí
                 th Trạng thái
                 th Hành động
 
@@ -68,6 +70,9 @@ block main
                     )
                   td #{item.title}
                   td #{item.price}$
+                  td 
+                    input(type="number" value=item.position item-id=item.id input-position data-patch=`/${prefixAdmin}/products/change-position`
+                    style="width: 60px")
                   td
                     if(item.status == "active")
                       button( class="badge badge-success" item-id=item.id

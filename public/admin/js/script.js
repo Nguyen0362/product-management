@@ -127,7 +127,15 @@ if(formChangeMulti){
         const patch = formChangeMulti.getAttribute("data-path");
     
         const status = formChangeMulti.status.value;
+
         const ids = [];
+
+        if(status == "delete"){
+            const isConfrim = confirm(" Bạn chắc chắn muốn xóa những bản ghi này")
+            if(!isConfrim){
+                return;
+            }
+        }
         
         const listInputChange = document.querySelectorAll("[input-change]:checked");
         
@@ -161,7 +169,7 @@ if(formChangeMulti){
 
 // Xóa bản ghi
 const listButtonDelete = document.querySelectorAll("[button-delete]");
-console.log(listButtonDelete);
+
 if(listButtonDelete.length > 0){
     listButtonDelete.forEach(button => {
         button.addEventListener("click", () => {
@@ -198,3 +206,36 @@ if(listButtonDelete.length > 0){
     })
 }
 // Hết xóa bản ghi
+
+// Đổi vị trí
+const listInputPosition = document.querySelectorAll("[input-position]");
+console.log(listInputPosition);
+if(listInputPosition.length > 0){
+    listInputPosition.forEach(input => {
+        input.addEventListener("change", () => {
+            const value = parseInt(input.value)
+            const id = input.getAttribute("item-id");
+            const patch = input.getAttribute("data-patch");
+
+            fetch(patch, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+
+                method: "PATCH",
+                body: JSON.stringify({
+                    id: id,   
+                    position: value
+                })  
+            })
+            
+            .then(res => res.json())
+            .then(data => {
+                if(data.code == "success"){
+                    location.reload();
+                }
+            })
+        })
+    })
+}
+// Hết đổi vị trí
