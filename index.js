@@ -1,5 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session')
 require('dotenv').config();
 const systemConfig = require('./config/system');
 
@@ -20,8 +23,16 @@ app.use(express.static('public')); // Thiết lập thư mục chứa file tĩnh
 // Khai báo biến toàn cục cho file pug 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
+// create application/x-www-form-urlencoded parser
+app.use(bodyParser.urlencoded({ extended: false }))
+
 //parser application/json
 app.use(bodyParser.json())
+
+//flash
+app.use(cookieParser('JHSNDJS'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 routeAdmin(app);
 routeClient(app);

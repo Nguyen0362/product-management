@@ -47,4 +47,29 @@
     border-bottom: 1px solid #515151;
   }
   /* End Sider */
+
+  /* Alert message */
+  .alert-message{
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    z-index: 999;
+  }
+  /* End alert message */
+
+  /* image-preview */
+.image-preview {
+  width: 150px;
+  height: auto;
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 5px;
+}
+.image-preview[src=""] {
+  display: none;
+}
+/* End image-preview */
+
+  
    

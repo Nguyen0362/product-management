@@ -209,7 +209,6 @@ if(listButtonDelete.length > 0){
 
 // Đổi vị trí
 const listInputPosition = document.querySelectorAll("[input-position]");
-console.log(listInputPosition);
 if(listInputPosition.length > 0){
     listInputPosition.forEach(input => {
         input.addEventListener("change", () => {
@@ -239,3 +238,27 @@ if(listInputPosition.length > 0){
     })
 }
 // Hết đổi vị trí
+
+// Alert message 
+const alertMessage = document.querySelector("[alert-message]");
+if(alertMessage){
+    setTimeout(() => {
+        alertMessage.style.display = "none";
+    }, 3000);
+}
+// End alert message 
+
+// Preview ảnh
+const uploadImage = document.querySelector("[upload-image]");
+console.log(uploadImage);
+if(uploadImage) {
+    const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
+    const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
+    uploadImageInput.addEventListener("change", () => {
+        const file = uploadImageInput.files[0];
+        if(file) {
+        uploadImagePreview.src = URL.createObjectURL(file);
+        }
+    });
+}
+// Hết preview ảnh

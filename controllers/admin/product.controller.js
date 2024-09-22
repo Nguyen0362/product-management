@@ -1,4 +1,5 @@
 const Product = require('../../model/product.model');
+const sytemConfig = require('../../config/system');
 
 module.exports.index = async (req, res) => {
     const find = {
@@ -59,6 +60,8 @@ module.exports.changeStatus = async (req, res) => {
         status: req.body.status
     })
 
+    req.flash('success', 'Đổi trạng thái thành công');
+
     res.json({
         code: "success",
         message: "Đổi trạng thái thành công"
@@ -77,6 +80,8 @@ module.exports.changeMulti = async (req, res) => {
                 status: req.body.status
             })
         
+            req.flash('success', 'Đổi trạng thái thành công');
+
             res.json({
                 code: "success",
                 message: "Đổi trạng thái thành công"
@@ -112,6 +117,8 @@ module.exports.delete = async(req, res) => {
         deleted: true
     })
 
+    req.flash('success', 'Xóa thành công');
+
     res.json({
         code: "success",
         message: "Đổi trạng thái thành công"
@@ -127,9 +134,38 @@ module.exports.changePosition = async(req, res) => {
         position: req.body.position
     })
 
+    req.flash('success', 'Đổi vị trí thành công');
+
     res.json({
         code: "success",
         message: "Đổi trạng thái thành công"
     })
 }
 //Hết đổi vị trí
+
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/products/create", {
+        pageTitle: "Thêm mới sản phẩm",
+    });
+}
+
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if(req.body.position){
+        req.body.position = parseInt(req.body.position);
+    } else {
+        const count = await Product.countDocuments();
+        req.body.position = count + 1;
+    }
+    
+    if(req.file){
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+
+    const record = new Product(req.body);
+    await record.save();
+
+    res.redirect(`/${sytemConfig.prefixAdmin}/products`);
+}
