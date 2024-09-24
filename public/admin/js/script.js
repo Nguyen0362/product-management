@@ -179,9 +179,6 @@ if(listButtonDelete.length > 0){
                 const id = button.getAttribute("button-id");
                 const patch = button.getAttribute("data-patch");
 
-                console.log(id);
-                console.log(patch);
-
                 const data = {
                     id: id
                 }
@@ -250,7 +247,6 @@ if(alertMessage){
 
 // Preview ảnh
 const uploadImage = document.querySelector("[upload-image]");
-console.log(uploadImage);
 if(uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");

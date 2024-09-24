@@ -16,6 +16,8 @@ const upload = multer({ storage: storage });
 
 const controller = require('../../controllers/admin/product.controller');
 
+const validate = require('../../validates/admin/products.validate');
+
 router.get("/", controller.index);
 
 router.patch("/change-status", controller.changeStatus);
@@ -28,6 +30,22 @@ router.patch("/change-position", controller.changePosition);
 
 router.get("/create", controller.create);
 
-router.post("/create", upload.single('thumbnail'), controller.createPost);
+router.post(
+  "/create", 
+  upload.single('thumbnail'), 
+  validate.createPost, 
+  controller.createPost
+);
+
+router.get("/edit/:id", controller.edit);
+
+router.patch(
+  "/edit/:id", 
+  upload.single('thumbnail'), 
+  validate.createPost, 
+  controller.editPatch
+);
+
+router.get("/detail/:id", controller.detail);
 
 module.exports = router;

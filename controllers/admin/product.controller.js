@@ -169,3 +169,54 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`/${sytemConfig.prefixAdmin}/products`);
 }
+
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+
+    const product = await Product.findOne({
+        _id: id,
+        deleted: false
+    })
+
+    res.render("admin/pages/products/edit", {
+        pageTitle: "Chỉnh sửa sản phẩm",
+        product: product
+    });
+}
+
+module.exports.editPatch = async (req, res) => {
+    const id = req.params.id;
+
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if(req.body.position){
+        req.body.position = parseInt(req.body.position);
+    }
+    
+    if(req.file){
+        req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+
+    await Product.updateOne({
+        _id: id,
+        deleted: false
+    }, req.body);
+
+    req.flash("success", "Cập nhật thánh công");
+    res.redirect("back");
+}
+
+module.exports.detail = async (req, res) => {
+    const id = req.params.id;
+
+    const product = await Product.findOne({
+        _id: id,
+        deleted: false
+    })
+
+    res.render("admin/pages/products/detail", {
+        pageTitle: "Chi tiết sản phẩm",
+        product: product
+    });
+}
