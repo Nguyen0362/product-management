@@ -143,6 +143,7 @@ module.exports.changePosition = async(req, res) => {
 }
 //Hết đổi vị trí
 
+//Thêm mới sản phẩm
 module.exports.create = async (req, res) => {
     res.render("admin/pages/products/create", {
         pageTitle: "Thêm mới sản phẩm",
@@ -159,17 +160,15 @@ module.exports.createPost = async (req, res) => {
         const count = await Product.countDocuments();
         req.body.position = count + 1;
     }
-    
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
 
     const record = new Product(req.body);
     await record.save();
 
     res.redirect(`/${sytemConfig.prefixAdmin}/products`);
 }
+// Hết thêm mới sản phẩm
 
+// Chỉnh sửa sản phẩm
 module.exports.edit = async (req, res) => {
     const id = req.params.id;
 
@@ -192,10 +191,6 @@ module.exports.editPatch = async (req, res) => {
     req.body.stock = parseInt(req.body.stock);
     if(req.body.position){
         req.body.position = parseInt(req.body.position);
-    }
-    
-    if(req.file){
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
 
     await Product.updateOne({
@@ -220,3 +215,4 @@ module.exports.detail = async (req, res) => {
         product: product
     });
 }
+// Hết chỉnh sửa sản phẩm
