@@ -61,7 +61,8 @@ module.exports.index = async (req, res) => {
         pageTitle: "Trang danh sách sản phẩm",
         products: products,
         totalPage: totalPage,
-        currentPage: page
+        currentPage: page,
+        limitItem: limitItem
     });
 }
 
@@ -229,3 +230,5 @@ module.exports.detail = async (req, res) => {
     });
 }
 // Hết chỉnh sửa sản phẩm
+
+
