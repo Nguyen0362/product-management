@@ -21,6 +21,18 @@ block main
         each item in records
           th(role-id=item.id) #{item.title}
     tbody   
+
+      //-Tổng quản
+      tr 
+        td(colspan="4")
+          b Tổng quan 
+      tr(data-name="dashboard_view")
+        td Xem
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
+      //-Hết tổng quản
+
       //- Danh mục sản phẩm
       tr 
         td(colspan="4")
@@ -65,7 +77,7 @@ block main
         each item in records
           td(class="text-center")
             input(type="checkbox" data-id=item.id)
-      tr(data-name="products-_delete")
+      tr(data-name="products_delete")
         td Xóa
         each item in records
           td(class="text-center")
@@ -95,4 +107,35 @@ block main
         each item in records
           td(class="text-center")
             input(type="checkbox" data-id=item.id)
+      tr(data-name="role_permission")
+        td Phân quyền
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
       //- Hết nhóm quyền
+
+      //- Tài khoản
+      tr 
+        td(colspan="4")
+          b Tài khoản
+      tr(data-name="accounts_view")
+        td Xem
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
+      tr(data-name="accounts_create")
+        td Thêm mới
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
+      tr(data-name="accounts_edit")
+        td Chỉnh sửa
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
+      tr(data-name="accounts_delete")
+        td Xóa
+        each item in records
+          td(class="text-center")
+            input(type="checkbox" data-id=item.id)
+      //- Hết tài khoản
