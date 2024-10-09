@@ -6,8 +6,9 @@ header.header
           a(href=`/${prefixAdmin}/dashboard`) ADMIN
 
       .col-9.text-right
-        span(
-          class="btn btn-info btn-sn"
+        a(
+          href=`/${prefixAdmin}/accounts/my-profile`
+          class="btn btn-info btn-sn mr-2"
         ) #{user.fullName}
 
         a(
