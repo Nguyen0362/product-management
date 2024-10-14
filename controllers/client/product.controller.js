@@ -32,6 +32,16 @@ module.exports.detail = async (req, res) => {
         deleted: false
     });
 
+    if(product.category_id){
+        const category = await ProductCategory.findOne({
+        _id: product.category_id,
+        deleted: false,
+        status: "active"
+        });
+
+        product.category = category;
+    }
+
     product.priceNew = product.price*(100 - product.discountPercentage)/100;
     product.priceNew = (product.priceNew).toFixed(0);
 
@@ -81,6 +91,36 @@ module.exports.category = async (req, res) => {
 
     res.render("client/pages/products/index", {
         pageTitle: "Danh sách sản phẩm",
+        products: products
+    });
+}
+
+module.exports.search = async (req, res) => {
+    const keyword = req.query.keyword
+
+    let products = []
+
+    //Tìm kiếm
+    if(keyword){
+        const regax = new RegExp(keyword, "i");
+
+        products = await Product.find({
+            title: regax,
+            deleted: false,
+            status: "active"
+        })
+        .sort({position: "desc"});
+    }
+
+    for(const product of products){
+        product.priceNew = product.price*(100 - product.discountPercentage)/100;
+        product.priceNew = (product.priceNew).toFixed(0);
+    }
+    //Hết tìm kiếm
+
+    res.render("client/pages/products/search", {
+        pageTitle: `Kết quả tìm kiếm: ${keyword}`,
+        keyword: keyword,
         products: products
     });
 }
